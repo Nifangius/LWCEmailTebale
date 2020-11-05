@@ -1,0 +1,15 @@
+<template>
+    <lightning-card title="Emails" icon-name="standard:email">
+    <div style= "height: 15rem; border-radius: 10px">
+        <lightning-datatable 
+                class="slds-table slds-table_bordered slds-table_striped"
+                key-field="id"
+                columns={columns}
+                data={email.data}
+                hide-checkbox-column
+                onclick={handleRowAction}>
+        </lightning-datatable>
+    </div>
+</lightning-card>
+<c-email-component if:true={showEmailComponent}></c-email-component>
+</template>
