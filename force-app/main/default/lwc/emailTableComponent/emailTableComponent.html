@@ -1,15 +1,54 @@
 <template>
-    <lightning-card title="Emails" icon-name="standard:email">
-    <div style= "height: 15rem; border-radius: 10px">
-        <lightning-datatable 
-                class="slds-table slds-table_bordered slds-table_striped"
-                key-field="id"
-                columns={columns}
-                data={email.data}
-                hide-checkbox-column
-                onclick={handleRowAction}>
-        </lightning-datatable>
-    </div>
-</lightning-card>
-<c-email-component if:true={showEmailComponent}></c-email-component>
+    <lightning-card title="Email table" icon-name="standard:email">
+        <div style="height: 250px;">
+            <lightning-datatable 
+            key-field="Id" 
+            data={email.data} 
+            columns={columns} 
+            onrowaction={handleRowAction}
+            hide-checkbox-column>
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+        <div style="height: 640px;" if:true={isOpen} class="slds-theme_default">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Email</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <dl class="slds-list_horizontal slds-wrap">
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Subject">Subject:</dt>
+                            <dd class="slds-item_detail slds-truncate">{record.Subject}</dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="To">To:</dt>
+                            <dd class="slds-item_detail slds-truncate">
+                                <lightning-formatted-email value={record.ToAddress} ></lightning-formatted-email>
+                            </dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="From">From:</dt>
+                            <dd class="slds-item_detail slds-truncate">
+                                <lightning-formatted-email value={record.FromAddress} ></lightning-formatted-email>
+                            </dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Message">Message:</dt>
+                            <dd class="slds-item_detail slds-truncate textarea">
+                                <lightning-textarea value={record.TextBody}></lightning-textarea>
+                            </dd>
+                        </dl>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" variant="neutral" onclick={closeModal}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <lightning-button label="Record View" onclick={viewRecord} value={record.Id} varian="brand"></lightning-button>
+                        <lightning-button label="Next" onclick={showNext} value={record.Id} varian="brand"></lightning-button>
+                        <lightning-button label="Prev" onclick={showPrev} value={record.Id} varian="brand"></lightning-button>
+
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
 </template>
+
